@@ -1,48 +1,54 @@
 ---
-ms.openlocfilehash: ced0e75c32d26aed43afa61d498f2f0c438bf2d0
-ms.sourcegitcommit: e0d9b18d2d4cbeb4a48890f3420a47e6a90abc53
+ms.openlocfilehash: ab38560fe196ea76bdb1928f218b83aa9c769496
+ms.sourcegitcommit: 59d94851101b121dc89c0f6ccf3b923e35d8efe8
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 11/17/2020
-ms.locfileid: "49347917"
+ms.lasthandoff: 07/15/2021
+ms.locfileid: "53446788"
 ---
 <!-- markdownlint-disable MD002 MD041 -->
 
 En esta sección, usará el SDK de Microsoft Graph para obtener el usuario que ha iniciado sesión.
 
-## <a name="create-a-graph-service"></a>Crear un servicio de gráficos
+## <a name="create-a-graph-service"></a>Crear un servicio Graph web
 
-Comience por implementar un servicio que el bot puede usar para obtener un **GraphServiceClient** del SDK de Microsoft Graph y, a continuación, poner dicho servicio a disposición del bot mediante la inserción de dependencias.
+Comience implementando un servicio que el bot puede usar para obtener **un GraphServiceClient** del SDK de Microsoft Graph y, a continuación, poner ese servicio a disposición del bot a través de la inserción de dependencias.
 
-1. Cree un nuevo directorio en la raíz del proyecto denominado **Graph**. Cree un archivo nuevo en el directorio **./Graph** denominado **IGraphClientService.CS** y agregue el siguiente código.
+1. Cree un nuevo directorio en la raíz del proyecto denominado **Graph**. Cree un nuevo archivo en el **directorio ./Graph** denominado **IGraphClientService.cs** y agregue el código siguiente.
 
     :::code language="csharp" source="../demo/GraphCalendarBot/Graph/IGraphClientService.cs" id="IGraphClientServiceSnippet":::
 
-1. Cree un archivo nuevo en el directorio **./Graph** denominado **GraphClientService.CS** y agregue el siguiente código.
+1. Cree un nuevo archivo en el **directorio ./Graph** denominado **GraphClientService.cs** y agregue el siguiente código.
 
     :::code language="csharp" source="../demo/GraphCalendarBot/Graph/GraphClientService.cs" id="GraphClientServiceSnippet":::
 
-1. Abra **./startup.CS** y agregue el siguiente código al final de la `ConfigureServices` función.
+1. Abra **./Startup.cs** y agregue la siguiente `using` instrucción en la parte superior del archivo.
+
+    ```csharp
+    using CalendarBot.Graph;
+    ```
+
+1. Agregue el siguiente código al final de la función `ConfigureServices`.
 
     :::code language="csharp" source="../demo/GraphCalendarBot/Startup.cs" id="AddGraphServiceSnippet":::
 
-1. Abra **./Dialogs/MainDialog.CS**. Agregue las siguientes `using` instrucciones en la parte superior del archivo.
+1. Abra **./Dialogs/MainDialog.cs**. Agregue las siguientes `using` instrucciones a la parte superior del archivo.
 
     ```csharp
     using System;
     using System.IO;
-    using CalendarBot.Graph;
     using AdaptiveCards;
+    using CalendarBot.Graph;
     using Microsoft.Graph;
     ```
 
-1. Agregue la siguiente propiedad a la clase **MainDialog** .
+1. Agregue la siguiente propiedad a la **clase MainDialog.**
 
     ```csharp
     private readonly IGraphClientService _graphClientService;
     ```
 
-1. Busque el constructor de la clase **MainDialog** y actualice su firma para que tome un parámetro **IGraphServiceClient** .
+1. Busque el constructor de la **clase MainDialog** y actualice su firma para tomar un parámetro **IGraphServiceClient.**
 
     :::code language="csharp" source="../demo/GraphCalendarBot/Dialogs/MainDialog.cs" id="ConstructorSignatureSnippet" highlight="4":::
 
@@ -54,9 +60,9 @@ Comience por implementar un servicio que el bot puede usar para obtener un **Gra
 
 ## <a name="get-the-logged-on-user"></a>Obtener el usuario que ha iniciado sesión
 
-En esta sección, usará Microsoft Graph para obtener el nombre del usuario, la dirección de correo electrónico y la foto. A continuación, creará una tarjeta adaptable para mostrar la información.
+En esta sección, usará el Graph Microsoft para obtener el nombre, la dirección de correo electrónico y la foto del usuario. A continuación, creará una tarjeta adaptable para mostrar la información.
 
-1. Cree un nuevo archivo en la raíz del proyecto denominado **CardHelper.CS**. Agregue el siguiente código al archivo.
+1. Cree un nuevo archivo en la raíz del proyecto denominado **CardHelper.cs**. Agregue el siguiente código al archivo.
 
     ```csharp
     using AdaptiveCards;
@@ -119,17 +125,17 @@ En esta sección, usará Microsoft Graph para obtener el nombre del usuario, la 
     }
     ```
 
-    Este código usa el paquete de NuGet **AdaptiveCard** para crear una tarjeta adaptable para mostrar el usuario.
+    Este código usa el paquete **de NuGet AdaptiveCard** para crear una tarjeta adaptable para mostrar al usuario.
 
-1. Agregue la siguiente función a la clase **MainDialog** .
+1. Agregue la siguiente función a la **clase MainDialog.**
 
     :::code language="csharp" source="../demo/GraphCalendarBot/Dialogs/MainDialog.cs" id="DisplayLoggedInUserSnippet":::
 
-    Considere lo que hace este código.
+    Tenga en cuenta lo que hace este código.
 
-    - Usa **graphClient** para [obtener el usuario que ha iniciado sesión](https://docs.microsoft.com/graph/api/user-get?view=graph-rest-1.0).
-        - Usa el `Select` método para limitar los campos que se devuelven.
-    - Usa **graphClient** para [obtener la foto del usuario](https://docs.microsoft.com/graph/api/profilephoto-get?view=graph-rest-1.0)y solicitar el menor tamaño admitido de 48x48 píxeles.
+    - Usa **graphClient para** [obtener el usuario que ha iniciado sesión.](https://docs.microsoft.com/graph/api/user-get?view=graph-rest-1.0)
+        - Usa el método `Select` para limitar los campos que se devuelven.
+    - Usa **graphClient para** [obtener la](https://docs.microsoft.com/graph/api/profilephoto-get?view=graph-rest-1.0)foto del usuario, solicitando el tamaño admitido más pequeño de 48 x 48 píxeles.
     - Usa la clase **CardHelper** para construir una tarjeta adaptable y envía la tarjeta como datos adjuntos.
 
 1. Reemplace el código dentro del `else if (command.StartsWith("show me"))` bloque `ProcessStepAsync` por lo siguiente.
@@ -138,6 +144,6 @@ En esta sección, usará Microsoft Graph para obtener el nombre del usuario, la 
 
 1. Guarde todos los cambios y reinicie el bot.
 
-1. Use el emulador de bot Framework para conectarse al bot e inicie sesión. Seleccione el botón **Mostrar** para mostrar el usuario que ha iniciado sesión.
+1. Use el Bot Framework Emulator para conectarse al bot e iniciar sesión. Seleccione el **botón Mostrarme** para mostrar al usuario que ha iniciado sesión.
 
     ![Captura de pantalla de la tarjeta adaptable que muestra al usuario](images/user-card.png)

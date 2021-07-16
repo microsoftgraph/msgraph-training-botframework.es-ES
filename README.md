@@ -1,27 +1,27 @@
 ---
-ms.openlocfilehash: 8cec789dc7403640656804d3c3b5be6023ace290
-ms.sourcegitcommit: e0d9b18d2d4cbeb4a48890f3420a47e6a90abc53
+ms.openlocfilehash: ace41258fd92c1bfb7ed9bbe10ef71fb6563d145
+ms.sourcegitcommit: 59d94851101b121dc89c0f6ccf3b923e35d8efe8
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 11/17/2020
-ms.locfileid: "49347886"
+ms.lasthandoff: 07/15/2021
+ms.locfileid: "53446747"
 ---
-# <a name="microsoft-graph-training-module---build-bot-framework-bots-with-the-microsoft-graph-sdk"></a>Módulo de aprendizaje de Microsoft Graph-Build bots de .NET Framework con el SDK de Microsoft Graph
+# <a name="microsoft-graph-training-module---build-bot-framework-bots-with-the-microsoft-graph-sdk"></a>Módulo de Graph aprendizaje de Microsoft: crear bots de Bot Framework con el SDK Graph Microsoft
 
-Este módulo le presentará cómo trabajar con el SDK de Microsoft Graph para obtener acceso a los datos de Office 365 mediante la creación de bots con Microsoft bot Framework.
+Este módulo le presentará cómo trabajar con el SDK de Microsoft Graph para obtener acceso a los datos de Office 365 mediante la creación de bots con el Microsoft Bot Framework.
 
-## <a name="lab---build-bot-framework-obts-with-the-microsoft-graph-sdk"></a>Laboratorio: crear obts Framework de bot con el SDK de Microsoft Graph
+## <a name="lab---build-bot-framework-bots-with-the-microsoft-graph-sdk"></a>Laboratorio: crear bots de Bot Framework con microsoft Graph SDK
 
-En este laboratorio, creará un proyecto de bot Framework para tener acceso a los datos de Microsoft 365 mediante Microsoft Graph.
+En este laboratorio, creará un proyecto de Bot Framework para obtener acceso a los datos en Microsoft 365 mediante microsoft Graph.
 
-- [Tutorial de bot Framework para Microsoft Graph](https://docs.microsoft.com/graph/tutorials/bot-framework)
+- [Tutorial de Bot Framework Graph Microsoft](https://docs.microsoft.com/graph/tutorials/bot-framework)
 
 ## <a name="completed-sample"></a>Ejemplo completado
 
-Si solo quiere el ejemplo completado que se genera siguiendo este laboratorio, puede encontrarlo aquí.
+Si solo desea que el ejemplo completado se genere siguiendo este laboratorio, puede encontrarlo aquí.
 
 - [Proyecto completado](demo)
 
 ## <a name="disclaimer"></a>Aviso de declinación de responsabilidades
 
-**Este código se proporciona _tal cual_ sin garantías de ningún tipo, ya sea expresa o implícita, incluidas las garantías implícitas de idoneidad para un fin determinado, comerciabilidad o ausencia de infracción.**
+**ESTE CÓDIGO SE _PROPORCIONA_ TAL COMO ESTÁ SIN GARANTÍA DE NINGÚN TIPO, YA SEA EXPRESA O IMPLÍCITA, INCLUIDAS LAS GARANTÍAS IMPLÍCITAS DE IDONEIDAD PARA UN FIN DETERMINADO, LA COMERCIALIZACIÓN O LA NO INFRACCIÓN.**

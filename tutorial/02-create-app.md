@@ -1,16 +1,16 @@
 ---
-ms.openlocfilehash: 12a6c18b52e2bc9aba5ad69c8bb9ab8091c11a64
-ms.sourcegitcommit: e0d9b18d2d4cbeb4a48890f3420a47e6a90abc53
+ms.openlocfilehash: 51878a3eebbcacb9ea325a3f97453d30006be116
+ms.sourcegitcommit: 59d94851101b121dc89c0f6ccf3b923e35d8efe8
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 11/17/2020
-ms.locfileid: "49347887"
+ms.lasthandoff: 07/15/2021
+ms.locfileid: "53446781"
 ---
 <!-- markdownlint-disable MD002 MD041 -->
 
-En esta sección, creará un proyecto de bot Framework.
+En esta sección, creará un proyecto de Bot Framework.
 
-1. Abra la interfaz de línea de comandos (CLI) en un directorio donde desee crear el proyecto. Ejecute el siguiente comando para crear un nuevo proyecto con la plantilla **Microsoft. bot. Framework. CSharp. EchoBot** .
+1. Abra la interfaz de línea de comandos (CLI) en un directorio donde desee crear el proyecto. Ejecute el siguiente comando para crear un nuevo proyecto con la plantilla **Microsoft.Bot.Framework.CSharp.EchoBot.**
 
     ```dotnetcli
     dotnet new echobot -n GraphCalendarBot
@@ -23,9 +23,9 @@ En esta sección, creará un proyecto de bot Framework.
     > dotnet new -i Microsoft.Bot.Framework.CSharp.EchoBot
     > ```
 
-1. Cambie el nombre de la clase **EchoBot** predeterminada a **CalendarBot**. Abra **./bots/EchoBot.CS** y reemplace todas las instancias de `EchoBot` por `CalendarBot` . Cambie el nombre del archivo a **CalendarBot.CS**.
+1. Cambie el nombre de **la clase EchoBot** predeterminada **a CalendarBot**. Abra **./Bots/EchoBot.cs** y reemplace todas las instancias de `EchoBot` con `CalendarBot` . Cambie el nombre del archivo **a CalendarBot.cs**.
 
-1. Reemplace todas las instancias de `EchoBot` por con `CalendarBot` en los archivos **. CS** restantes.
+1. Reemplace todas las instancias de `EchoBot` with en los archivos `CalendarBot` **.cs** restantes.
 
 1. En la CLI, cambie el directorio actual al directorio **GraphCalendarBot** y ejecute el siguiente comando para confirmar las compilaciones del proyecto.
 
@@ -35,26 +35,26 @@ En esta sección, creará un proyecto de bot Framework.
 
 ## <a name="add-nuget-packages"></a>Agregar paquetes NuGet
 
-Antes de continuar, instale algunos paquetes NuGet adicionales que usará más adelante.
+Antes de seguir, instala algunos paquetes NuGet que usarás más adelante.
 
-- [AdaptiveCards](https://www.nuget.org/packages/AdaptiveCards/) para permitir que el bot envíe tarjetas adaptables en las respuestas.
-- [Microsoft. bot. Builder. Dialogs](https://www.nuget.org/packages/Microsoft.Bot.Builder.Dialogs/) para agregar compatibilidad con cuadros de diálogo al bot.
-- [Microsoft. reconocedores. Text. Datatypes. TimexExpression](https://www.nuget.org/packages/Microsoft.Recognizers.Text.DataTypes.TimexExpression/) para convertir las expresiones Timex devueltas por los mensajes de bot en objetos **DateTime** .
-- [Microsoft. Graph](https://www.nuget.org/packages/Microsoft.Graph/) para realizar llamadas a Microsoft Graph.
+- [AdaptiveCards para](https://www.nuget.org/packages/AdaptiveCards/) permitir que el bot envíe tarjetas adaptables en respuestas.
+- [Microsoft.Bot.Builder.Dialogs](https://www.nuget.org/packages/Microsoft.Bot.Builder.Dialogs/) para agregar compatibilidad de cuadros de diálogo al bot.
+- [Microsoft.Recognizers.Text.DataTypes.TimexExpression](https://www.nuget.org/packages/Microsoft.Recognizers.Text.DataTypes.TimexExpression/) para convertir las expresiones TIMEX devueltas de los mensajes del bot en **objetos DateTime.**
+- [Microsoft.Graph](https://www.nuget.org/packages/Microsoft.Graph/) para realizar llamadas a Microsoft Graph.
 
-1. Ejecute los siguientes comandos en su CLI para instalar las dependencias.
+1. Ejecute los siguientes comandos en la CLI para instalar las dependencias.
 
     ```Shell
-    dotnet add package AdaptiveCards --version 2.2.0
-    dotnet add package Microsoft.Bot.Builder.Dialogs --version 4.10.3
-    dotnet add package Microsoft.Bot.Builder.Integration.AspNet.Core --version 4.10.3
-    dotnet add package Microsoft.Recognizers.Text.DataTypes.TimexExpression --version 1.4.1
-    dotnet add package Microsoft.Graph --version 3.18.0
+    dotnet add package AdaptiveCards --version 2.7.1
+    dotnet add package Microsoft.Bot.Builder.Dialogs --version 4.14.1
+    dotnet add package Microsoft.Bot.Builder.Integration.AspNet.Core --version 4.14.1
+    dotnet add package Microsoft.Recognizers.Text.DataTypes.TimexExpression --version 1.7.0
+    dotnet add package Microsoft.Graph --version 4.0.0
     ```
 
 ## <a name="test-the-bot"></a>Probar el bot
 
-Antes de agregar código, pruebe el bot para asegurarse de que funciona correctamente y de que el emulador de entorno de bot está configurado para probarlo.
+Antes de agregar cualquier código, pruebe el bot para asegurarse de que funciona correctamente y de que el Bot Framework Emulator está configurado para probarlo.
 
 1. Inicie el bot ejecutando el siguiente comando.
 
@@ -63,14 +63,14 @@ Antes de agregar código, pruebe el bot para asegurarse de que funciona correcta
     ```
 
     > [!TIP]
-    > Aunque puede usar cualquier editor de texto para editar los archivos de origen en el proyecto, se recomienda usar [Visual Studio Code](https://code.visualstudio.com/). Visual Studio Code ofrece compatibilidad de depuración, IntelliSense y más. Si usa Visual Studio Code, puede iniciar el bot mediante el menú **Run** de  ->  **Inicio de depuración** de ejecución.
+    > Aunque puede usar cualquier editor de texto para editar los archivos de origen del proyecto, se recomienda usar [Visual Studio Code](https://code.visualstudio.com/). Visual Studio Code compatibilidad con la depuración, Intellisense y mucho más. Si usa Visual Studio Code, puede iniciar el bot mediante el **menú**  ->  **Ejecutar depuración de** inicio.
 
-1. Para confirmar que se está ejecutando el bot, abra el explorador y vaya a `http://localhost:3978` . Debería ver que **su bot está preparado.** Mensaje.
+1. Confirme que el bot se está ejecutando abriendo el explorador y yendo a `http://localhost:3978` . Debería ver un **bot your is ready!** Mensaje.
 
-1. Abra el emulador de bot Framework. Elija el menú **archivo** y, a continuación, **abra bot**.
+1. Abra el Bot Framework Emulator. Elija el **menú** Archivo y, a continuación, **Abra bot**.
 
-1. Escriba `http://localhost:3978/api/messages` en la **dirección URL del bot** y, después, seleccione **conectar**.
+1. Escriba `http://localhost:3978/api/messages` en la dirección URL del **bot** **y, a continuación, seleccione Conectar**.
 
-1. El bot responde `Hello and welcome!` en la ventana de chat. Envíe un mensaje al bot y confirme de nuevo que lo repite.
+1. El bot responde con `Hello and welcome!` en la ventana de chat. Envíe un mensaje al bot y confirme que lo vuelve a hacer eco.
 
-    ![Captura de pantalla del emulador de bot Framework conectado al bot](images/test-emulator.png)
+    ![Captura de pantalla del Bot Framework Emulator conectado al bot](images/test-emulator.png)

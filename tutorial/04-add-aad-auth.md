@@ -1,35 +1,35 @@
 ---
-ms.openlocfilehash: 05b3223967bf2a6d321c00cca079cc5c5b8ff0db
-ms.sourcegitcommit: e0d9b18d2d4cbeb4a48890f3420a47e6a90abc53
+ms.openlocfilehash: f8b2a2b4e1c5d42c74398616513204559058a5dc
+ms.sourcegitcommit: 59d94851101b121dc89c0f6ccf3b923e35d8efe8
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 11/17/2020
-ms.locfileid: "49347880"
+ms.lasthandoff: 07/15/2021
+ms.locfileid: "53446795"
 ---
 <!-- markdownlint-disable MD002 MD041 -->
 
-En este ejercicio usará el **OAuthPrompt** del marco de robots para implementar la autenticación en el bot y adquirir tokens de acceso para llamar a la API de Microsoft Graph.
+En este ejercicio, usará el **OAuthPrompt** de Bot Framework para implementar la autenticación en el bot y adquirir tokens de acceso para llamar a la API Graph Microsoft.
 
-1. Abra **./appsettings.jsen** y realice los siguientes cambios.
+1. Abra **./appsettings.jsy** realice los siguientes cambios.
 
-    - Cambie el valor de `MicrosoftAppId` al identificador de aplicación del registro de la aplicación de **Bot de calendario de Graph** .
-    - Cambie el valor de `MicrosoftAppPassword` al secreto de cliente del **Bot de calendario de Graph** .
+    - Cambie el valor del identificador de aplicación de su Graph registro de la aplicación `MicrosoftAppId` **bot** de calendario.
+    - Cambie el valor del `MicrosoftAppPassword` secreto de cliente Graph bot **de** calendario.
     - Agregue un valor denominado `ConnectionName` con un valor de `GraphBotAuth` .
 
     :::code language="json" source="../demo/GraphCalendarBot/appsettings.example.json":::
 
     > [!NOTE]
-    > Si usó un valor distinto de `GraphBotAuth` para el nombre de la entrada en **configuración de conexión de OAuth** en el portal de Azure, use ese valor para la `ConnectionName` entrada.
+    > Si usó un valor distinto del nombre de la entrada en `GraphBotAuth` **OAuth Connection Configuración** en Azure Portal, use ese valor para la `ConnectionName` entrada.
 
-## <a name="implement-dialogs"></a>Implementación de cuadros de diálogo
+## <a name="implement-dialogs"></a>Implementar cuadros de diálogo
 
-1. Cree un nuevo directorio en la raíz del proyecto denominado **Dialogs**. Cree un archivo nuevo en el directorio **./Dialogs** denominado **LogoutDialog.CS** y agregue el siguiente código.
+1. Cree un nuevo directorio en la raíz del proyecto denominado **Dialogs**. Cree un nuevo archivo en el directorio **./Dialogs** denominado **LogoutDialog.cs** y agregue el siguiente código.
 
     :::code language="csharp" source="../demo/GraphCalendarBot/Dialogs/LogoutDialog.cs" id="LogoutDialogSnippet":::
 
-    Este cuadro de diálogo proporciona una clase base para todos los demás cuadros de diálogo del bot del que se deriva. Esto permite al usuario cerrar sesión sin importar dónde se encuentran en los cuadros de diálogo del bot.
+    Este cuadro de diálogo proporciona una clase base para todos los demás cuadros de diálogo del bot de los que se derivará. Esto permite al usuario cerrar sesión independientemente de dónde se encuentran en los cuadros de diálogo del bot.
 
-1. Cree un archivo nuevo en el directorio **./Dialogs** denominado **MainDialog.CS** y agregue el siguiente código.
+1. Cree un nuevo archivo en el directorio **./Dialogs** denominado **MainDialog.cs** y agregue el siguiente código.
 
     ```csharp
     using System.Collections.Generic;
@@ -235,78 +235,82 @@ En este ejercicio usará el **OAuthPrompt** del marco de robots para implementar
 
     Tómese un momento para revisar este código.
 
-    - En el constructor, se configura una [WaterfallDialog](https://docs.microsoft.com/azure/bot-service/bot-builder-concept-waterfall-dialogs?view=azure-bot-service-4.0) con un conjunto de pasos que se producen en orden.
-        - En `LoginPromptStepAsync` él envía un **OAuthPrompt**. Si el usuario no ha iniciado sesión, se enviará un mensaje de la interfaz de usuario al usuario.
-        - En `ProcessLoginStepAsync` it comprueba si el inicio de sesión se ha realizado correctamente y envía una confirmación.
-        - En `PromptUserStepAsync` se envía un **ChoicePrompt** con los comandos disponibles.
-        - `CommandStepAsync`Guarda la elección del usuario y, a continuación, reenvía un **OAuthPrompt**.
-        - En `ProcessStepAsync` este ejemplo, realiza acciones basadas en el comando recibido.
-        - En `ReturnToPromptStepAsync` él inicia la cascada, pero pasa una marca para omitir el inicio de sesión de usuario inicial.
+    - En el constructor, configura un [WaterfallDialog](https://docs.microsoft.com/azure/bot-service/bot-builder-concept-waterfall-dialogs?view=azure-bot-service-4.0) con un conjunto de pasos que se producen en orden.
+        - En `LoginPromptStepAsync` él se envía un **OAuthPrompt**. Si el usuario no ha iniciado sesión, se enviará un mensaje de interfaz de usuario al usuario.
+        - En `ProcessLoginStepAsync` él comprueba si el inicio de sesión se ha realizado correctamente y envía una confirmación.
+        - En `PromptUserStepAsync` él se envía un **ChoicePrompt** con los comandos disponibles.
+        - En `CommandStepAsync` ella se guarda la elección del usuario y, a continuación, se vuelve a enviar un **OAuthPrompt**.
+        - En `ProcessStepAsync` ella se realiza una acción basada en el comando recibido.
+        - In `ReturnToPromptStepAsync` it starts the waterfall over, but passes a flag to skip the initial user login.
 
 ## <a name="update-calendarbot"></a>Actualizar CalendarBot
 
-El paso siguiente es actualizar **CalendarBot** para usar estos nuevos cuadros de diálogo.
+El siguiente paso es actualizar **CalendarBot** para usar estos nuevos cuadros de diálogo.
 
-1. Abra **./bots/CalendarBot.CS** y reemplace todo el contenido por el código siguiente.
+1. Abra **./Bots/CalendarBot.cs** y reemplace todo su contenido por el código siguiente.
 
     :::code language="csharp" source="../demo/GraphCalendarBot/Bots/CalendarBot.cs" id="CalendarBotSnippet":::
 
     Este es un breve resumen de los cambios.
 
-    - Se ha cambiado la clase **CalendarBot** para que sea una clase de plantilla y recibe un **cuadro de diálogo**.
-    - Se ha cambiado la clase **CalendarBot** para extender **TeamsActivityHandler**, lo que permite iniciar sesión en Microsoft Teams.
-    - Se agregaron reemplazos de método adicionales para habilitar la autenticación.
+    - Se **cambió la clase CalendarBot** para que sea una clase de plantilla, recibiendo un **cuadro de diálogo**.
+    - Se **cambió la clase CalendarBot** para extender **TeamsActivityHandler,** lo que le permite iniciar sesión en Microsoft Teams.
+    - Se agregaron invalidaciones de método adicionales para habilitar la autenticación.
 
 ## <a name="update-startupcs"></a>Actualizar Startup.cs
 
-El último paso consiste en actualizar el `ConfigureServices` método para agregar los servicios necesarios para la autenticación y el nuevo cuadro de diálogo.
+El último paso es actualizar el método para agregar los servicios necesarios `ConfigureServices` para la autenticación y el nuevo cuadro de diálogo.
 
-1. Abra **./startup.CS** y quite la `services.AddTransient<IBot, Bots.CalendarBot>();` línea del `ConfigureServices` método.
+1. Abra **./Startup.cs** y quite la `services.AddTransient<IBot, Bots.CalendarBot>();` línea del `ConfigureServices` método.
 
 1. Inserte el siguiente código al final del `ConfigureServices` método.
 
     :::code language="csharp" source="../demo/GraphCalendarBot/Startup.cs" id="ConfigureServiceSnippet":::
 
-## <a name="test-authentication"></a>Probar la autenticación
+## <a name="test-authentication"></a>Autenticación de prueba
 
 1. Guarde todos los cambios e inicie el bot con `dotnet run` .
 
-1. Abra el emulador de bot Framework. Seleccione el menú **archivo** y, a continuación, **nueva configuración de bot.**
+1. Abra el Bot Framework Emulator. Seleccione el icono de engranaje &#9881; en la parte inferior izquierda.
 
-1. Rellene los campos como se indica a continuación.
+1. Escriba la ruta de acceso local a la instalación de ngrok y habilite omitir **ngrok** para direcciones locales y **Ejecutar ngrok** cuando el Emulator inicie las opciones. Seleccione **Guardar**.
 
-    - **Nombre de bot:**`CalendarBot`
+1. Seleccione el **menú** Archivo y, a continuación, **Nueva configuración del bot...**.
+
+1. Rellene los campos de la siguiente manera.
+
+    - **Nombre del bot:**`CalendarBot`
     - **Dirección URL del extremo:**`https://localhost:3978/api/messages`
-    - IDENTIFICADOR de aplicación de **Microsoft:** el identificador de aplicación del registro de la aplicación de **Bot de calendario de Graph**
-    - **Contraseña de aplicación de Microsoft:** el secreto de cliente del **Bot de calendario de Graph**
-    - **Cifrar las claves almacenadas en la configuración de bot:** Preparado
+    - **Id. de aplicación de Microsoft:** el identificador de aplicación de su **Graph registro de la** aplicación bot de calendario
+    - **Contraseña de la aplicación microsoft:** el **secreto Graph cliente del bot de** calendario
+    - **Cifrar claves almacenadas en la configuración del bot:** Habilitado
 
-    ![Captura de pantalla del nuevo cuadro de diálogo de configuración de bot](images/new-bot-config.png)
+    ![Captura de pantalla del cuadro de diálogo Nueva configuración del bot](images/new-bot-config.png)
 
-1. Seleccione **Guardar y conectar**. Una vez que el emulador se conecte, verá `Welcome to Microsoft Graph CalendarBot. Type anything to get started.`
+1. Seleccione **Guardar y conectar**. Después de conectar el emulador, debería ver `Welcome to Microsoft Graph CalendarBot. Type anything to get started.`
 
 1. Escriba texto y envíelo al bot. El bot responde con un mensaje de inicio de sesión.
 
-1. Seleccione el botón **iniciar sesión** . El emulador le pedirá que confirme la dirección URL que comienza con `oauthlink://https://token.botframeworkcom` . Seleccione **confirmar** para continuar.
+1. Seleccione el **botón Inicio de** sesión. El emulador le pide que confirme la dirección URL que empieza por `oauthlink://https://token.botframeworkcom` . Seleccione **Confirmar** para continuar.
 
-1. En la ventana emergente, inicie sesión con su cuenta de Microsoft 365. Revise los permisos solicitados y acepte.
+1. En la ventana emergente, inicie sesión con su Microsoft 365 cuenta. Revise los permisos solicitados y acepte.
 
 1. Una vez completada la autenticación y el consentimiento, la ventana emergente proporciona un código de validación. Copie el código y cierre la ventana.
 
-    ![Captura de pantalla del código de validación del emulador de bot Framework](images/validation-code.png)
+    ![Una captura de pantalla del Bot Framework Emulator de validación](images/validation-code.png)
 
-1. Escriba el código de validación en la ventana chat para completar el inicio de sesión.
+1. Escriba el código de validación en la ventana de chat para completar el inicio de sesión.
 
-    ![Una captura de pantalla de la conversación de inicio de sesión con el bot de muestra](images/bot-login.png)
+    ![Captura de pantalla de la conversación de inicio de sesión con el bot de ejemplo](images/bot-login.png)
 
-1. Si selecciona el botón **Mostrar token** (o tipo `show token` ), el bot muestra el token de acceso. El botón **Cerrar sesión** (o escritura `log out` ) cerrará la sesión.
+1. Si selecciona el botón **Mostrar token** (o `show token` tipo), el bot muestra el token de acceso. El **botón Cerrar sesión** (o escribir ) le `log out` cerrará la sesión.
 
 > [!TIP]
-> Puede recibir el siguiente mensaje de error en el emulador de bot Framework al iniciar una conversación con el bot.
+> Es posible que reciba el siguiente mensaje de error en la Bot Framework Emulator al iniciar una conversación con el bot.
 >
 > ```text
 > Failed to generate an actual sign-in link: Error: Failed to connect to ngrok instance for OAuth postback URL:
 > FetchError: request to http://127.0.0.1:4041/api/tunnels failed, reason: connect ECONNREFUSED 127.0.0.1:4041
 > ```
 >
-> Si esto ocurre, cierre el emulador y reinícielo.
+> Si esto sucede, asegúrese de habilitar la opción **Ejecutar ngrok** cuando Emulator la configuración del emulador y reinicie el emulador.
